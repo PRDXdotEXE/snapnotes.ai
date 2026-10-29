@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SnapNotes</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="brand">SnapNotes</span>
+      <div id="account" class="account hidden">
+        <span id="account-name" class="account-name"></span>
+        <button id="logout-btn" class="btn btn-ghost" type="button">Log out</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="auth-view" class="auth hidden">
+        <form id="auth-form" class="card auth-card" novalidate>
+          <div class="tabs">
+            <button type="button" class="tab active" data-mode="login">Sign in</button>
+            <button type="button" class="tab" data-mode="register">Create account</button>
+          </div>
+
+          <p id="auth-message" class="message hidden"></p>
+
+          <label id="username-field" class="hidden">
+            Username
+            <input name="username" type="text" autocomplete="username" minlength="3" maxlength="30" />
+          </label>
+
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+
+          <label>
+            Password
+            <input
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            />
+          </label>
+
+          <button id="auth-submit" class="btn btn-primary" type="submit">Sign in</button>
+        </form>
+      </section>
+
+      <section id="app-view" class="workspace hidden">
+        <aside class="panel list-panel">
+          <div class="panel-head">
+            <h2>Notes</h2>
+            <button id="new-note-btn" class="btn btn-primary btn-sm" type="button">New note</button>
+          </div>
+          <ul id="notes-list" class="notes-list"></ul>
+          <p id="notes-empty" class="empty hidden">No notes yet. Create your first one.</p>
+        </aside>
+
+        <section class="panel editor-panel">
+          <form id="editor-form" class="editor" novalidate>
+            <p id="editor-placeholder" class="empty">Select a note or create a new one.</p>
+
+            <div id="editor-fields" class="hidden">
+              <input id="note-title" name="title" type="text" placeholder="Note title" maxlength="200" />
+              <textarea
+                id="note-content"
+                name="content"
+                placeholder="Write something…"
+                rows="16"
+              ></textarea>
+
+              <div class="editor-actions">
+                <button id="delete-btn" class="btn btn-danger" type="button">Delete</button>
+                <span class="spacer"></span>
+                <span id="editor-status" class="status"></span>
+                <button id="save-btn" class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </section>
+
+      <p id="toast" class="toast hidden"></p>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

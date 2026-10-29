@@ -1,4 +1,5 @@
 import { pgTable, pgEnum, uuid, text, integer, timestamp, index } from 'drizzle-orm/pg-core';
+import { junit } from 'node:test/reporters';
 
 export const jobStatus = pgEnum('job_status', ['pending', 'processing', 'completed', 'failed']);
 export const jobType = pgEnum('job_type', [
@@ -54,6 +55,28 @@ export const processingJobs = pgTable(
   (t) => [index('jobs_note_idx').on(t.noteId), index('jobs_status_idx').on(t.status)],
 );
 
+export const refreshTokens = pgTable(
+  'refresh_tokens',
+  {
+    id: uuid('id').primaryKey().defaultRandom().notNull(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    tokenHash: text('token_hash').notNull().unique(),
+    jti: text('jti').notNull().unique(),
+    expiresAt: timestamp('expires_at').notNull(),
+    revokedAt: timestamp('revoked_at'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [
+    index('refresh_tokens_user_idx').on(t.userId),
+    index('refresh_tokens_expires_idx').on(t.expiresAt),
+  ],
+);
+
 export type NewUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 export type UserResponse = Omit<User, 'passwordHash'>;
+
+export type RefreshToken = typeof refreshTokens.$inferSelect;
+export type NewRefreshToken = typeof refreshTokens.$inferInsert;

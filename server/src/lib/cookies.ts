@@ -1,5 +1,4 @@
 import { type CookieOptions, type Response } from 'express';
-import { generateToken } from './auth/jwt';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -15,10 +14,11 @@ const baseOptions: CookieOptions = {
 export const ACCESS_COOKIE = 'access_token';
 export const REFRESH_COOKIE = 'refresh_token';
 
-export const setAuthCookies = (res: Response, userId: string): string => {
-  const accessToken = generateToken({ sub: userId }, '15m');
-  const refreshToken = generateToken({ sub: userId }, '7d');
-
+export const setAuthCookies = (
+  res: Response,
+  accessToken: string,
+  refreshToken: string,
+): string => {
   res.cookie(ACCESS_COOKIE, accessToken, {
     ...baseOptions,
     maxAge: ACCESS_MAX_AGE,

@@ -8,6 +8,7 @@ import { logger } from './lib/logger';
 import { errorHandler, notFound } from './middleware/errorHandler';
 import { healthRouter } from './modules/health/health.routes';
 import { authRouter } from './modules/auth/auth.routes';
+import { notesRouter } from './modules/notes/notes.routes';
 import cookieParser from 'cookie-parser';
 export const app = express();
 
@@ -33,6 +34,7 @@ app.get('/', (_req, res) => {
 
 app.use('/api/v1', healthRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/notes', notesRouter);
 
 app.use(notFound);
 app.use(errorHandler);

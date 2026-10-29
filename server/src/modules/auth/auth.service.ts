@@ -7,7 +7,6 @@ import type { PublicUser } from './auth.types';
 
 export const toPublicUser = ({ passwordHash: _passwordHash, ...user }: User): PublicUser => user;
 
-// Verified against when the account doesn't exist, so login timing stays flat
 const dummyHash = argon2.hash('dummy-password-for-timing');
 
 const isUniqueViolation = (err: unknown): boolean => {
